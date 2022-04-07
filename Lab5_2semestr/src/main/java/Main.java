@@ -11,6 +11,7 @@ public class Main {
         ArrayReader arrayReader = new ArrayReader();
         ArrayTasks arrayTasks = new ArrayTasks();
         arrayTasks.processArray(arrayReader.readTwoDimensionalArray("lab52.txt"));
+        arrayTasks.processArray(arrayReader.readOneDimensionalArray("lab5.txt"));
 
 
     }
