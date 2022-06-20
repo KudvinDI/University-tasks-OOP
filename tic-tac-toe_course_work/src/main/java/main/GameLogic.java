@@ -44,7 +44,7 @@ public class GameLogic  {
             }
         }
     }
-    private void endGame(Button[] buttons){
+    private void endGame(Button[] buttons){ //SmbWon
         for(Button button : buttons){
             button.setDisable(true);
         }
@@ -60,7 +60,7 @@ public class GameLogic  {
             playerTurn = 0;
         }
     }
-    private void restartGame(Button[] buttons, Text mainText){
+    private void restartGame(Button[] buttons, Text mainText){ //Clicked on restart
         for (Button b : buttons){
             DrawToScene drawToScene = new DrawToScene(b);
             drawToScene.drawVoid();

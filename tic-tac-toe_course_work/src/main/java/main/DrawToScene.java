@@ -7,6 +7,7 @@ public class DrawToScene {
     public DrawToScene(Button button) {
         this.button = button;
     }
+
     public void drawX(){
         this.button = new XObj(button).getButton();
     }

@@ -1,153 +1,60 @@
 package com.company;
 
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class BinaryTree {   // Comporator usage
+    MyComparator myComparator = new MyComparator();
+
+    private Node root;
 
 
-    private Node rootNode;
-
-    public void insertNode(int value) {
+    public boolean insertNode(int value) {
         Node newNode = new Node();
         newNode.setValue(value);
-        if (rootNode == null) {  //root node
-            rootNode = newNode;
-        } else {
-            Node currentNode = rootNode;
-
-            if (value % 2 == 0) { // to left
-
-                if(value == currentNode.getValue()){ //value exists
-                    return;
-                }
-                if (rootNode.getLeft() == null) { // first left element
-                    rootNode.setLeft(newNode);
-                    newNode.setParent(rootNode);
-                    newNode.setValue(value);
-                    return;
-                }
-                currentNode = rootNode.getLeft();
-                while (true) {
-                    if(value == currentNode.getValue()){ //value exists
-                        return;
-                    }
-                    if (value < currentNode.getValue()) {   // left
-                        if (currentNode.getLeft() == null) {
-                            currentNode.setLeft(newNode);
-                            newNode.setParent(currentNode);
-                            return;
-                        }
-                        currentNode = currentNode.getLeft();
-                    }
-                    else { // right
-                        if (currentNode.getRight() == null) {
-                            currentNode.setRight(newNode);
-                            newNode.setParent(currentNode);
-                            return;
-                        }
-                        currentNode = currentNode.getRight();
-                    }
-
-
-                }
-
-            } else { // to right
-                if(value == currentNode.getValue()){ //value exists
-                    return;
-                }
-                if (rootNode.getRight() == null) { // first right element
-                    rootNode.setRight(newNode);
-                    newNode.setParent(rootNode);
-                    newNode.setValue(value);
-                    return;
-                }
-                currentNode = rootNode.getRight();
-                while (true) {
-                    if(value == currentNode.getValue()){ //value exists
-                        return;
-                    }
-                    if (value > currentNode.getValue()) {   // left
-                        if (currentNode.getLeft() == null) {
-                            currentNode.setLeft(newNode);
-                            newNode.setParent(currentNode);
-                            return;
-                        }
-                        currentNode = currentNode.getLeft();
-                    }
-                    else { // right
-                        if (currentNode.getRight() == null) {
-                            currentNode.setRight(newNode);
-                            newNode.setParent(currentNode);
-                            return;
-                        }
-                        currentNode = currentNode.getRight();
-                    }
-                }
-            }
+        if (root == null) {  //root node
+            root = newNode;
         }
+        return addInSubTree(value, root);
     }
-    public void deleteNode(int value){
-        Node currentNode = rootNode;
-        boolean isLeft = true;
-        if(value % 2 == 0){
-            currentNode = currentNode.getLeft();
-            while (currentNode.getValue() != value){
-                if (value < currentNode.getValue()) { // Определяем, нужно ли движение влево?
-                    isLeft = true;
-                    currentNode = currentNode.getLeft();
-                }
-                else { // или движение вправо?
-                    isLeft = false;
-                    currentNode = currentNode.getRight();
-                }
-                if (currentNode == null)
-                    System.out.println("Node not found");
-                    return;
-            }
 
-            if (currentNode.getLeft() == null && currentNode.getRight() == null) { // case 1
-                if (currentNode == rootNode) // value is rootNode
-                    rootNode = null;
-                else if (isLeft)
-                    currentNode.getParent().setLeft(null); // for left Parent
-                else
-                    currentNode.getParent().setRight(null); // for right Parent
-            }
-            else if (currentNode.getRight() == null) { // case 2
-                if (currentNode == rootNode) // value is rootNode
-                    rootNode = currentNode.getLeft();
-                else if (isLeft)
-                    currentNode.getParent().setLeft(currentNode.getLeft());
-                else
-                    currentNode.getParent().setRight(currentNode.getLeft());
-            }
-            else if (currentNode.getLeft() == null) { //case 3
-                if (currentNode == rootNode) // value is rootNode
-                    rootNode = currentNode.getRight();
-                else if (isLeft)
-                    currentNode.getParent().setLeft(currentNode.getRight());
-                else
-                    currentNode.getParent().setRight(currentNode.getRight());
-//            }
-//            else { // если есть два потомка, узел заменяется преемником
-//                Node heir = receiveHeir(currentNode);// поиск преемника для удаляемого узла
-//                if (currentNode == rootNode)
-//                    rootNode = heir;
-//                else if (isLeft)
-//                    currentNode.getParent().setLeft(heir);
-//                else
-//                    currentNode.getParent().setRight(heir);
-//            }
-//            return; // элемент успешно удалён
+    private boolean addInSubTree(int value, Node rootNode) {
+        if (value == rootNode.getValue()) {
+            return false;
         }
+        if (value % 2 ==0) { // left
+            if(value > rootNode.getValue()){
+                if (rootNode.getLeft()==null) { // Left
+                    rootNode.setLeft(new Node(value));
+                    return true;
+                } else {
+                    return addInSubTree(value, rootNode.getLeft());
+                }
+            }
+            else {
+                if (rootNode.getRight() == null) { //Right
+                    rootNode.setRight(new Node(value));
+                    return true;
+                } else {
+                    return addInSubTree(value, rootNode.getRight());
+                }
+            }
+
+        } else {
+            if (rootNode.getRight() == null) { //Right
+                rootNode.setRight(new Node(value));
+                return true;
+            } else {
+                return addInSubTree(value, rootNode.getRight());
+            }
         }
-
-
     }
 
     public void printTree() { // метод для вывода дерева в консоль
         Stack globalStack = new Stack(); // общий стек для значений дерева
-        globalStack.push(rootNode);
+        globalStack.push(root);
         int gaps = 32; // начальное значение расстояния между элементами
         boolean isRowEmpty = false;
         String separator = "-----------------------------------------------------------------";
@@ -185,5 +92,24 @@ public class BinaryTree {   // Comporator usage
     }
 
 
+}
+
+class MyComparator implements Comparator<Integer>{
+
+    @Override
+    public int compare(Integer o1, Integer o2) {
+        if (o1 % 2 == 0 && o2 % 2 != 0) {
+            return -1;
+        }
+        if (o2 % 2 == 0 && o1 % 2 != 0) {
+            return +1;
+        }
+        if (o1 % 2 == 0) {
+            return -Integer.compare(o1, o2);
+        }
+        return Integer.compare(o1, o2);
+    }
 
 }
+
+

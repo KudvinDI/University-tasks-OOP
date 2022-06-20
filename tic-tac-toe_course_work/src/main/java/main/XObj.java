@@ -3,15 +3,10 @@ package main;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
-public class XObj {
-    Button button;
+public class XObj extends Obj {
     public XObj(Button button) {
-        this.button = button;
+        super(button);
         button.setText("X");
         button.setTextFill(Color.RED);
-    }
-
-    public Button getButton() {
-        return button;
     }
 }

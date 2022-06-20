@@ -6,8 +6,12 @@ public class Node {
     private Node right;
     private Node parent;
 
+    public Node(int value) {
+        this.value = value;
+    }
+    public Node(){
 
-
+    }
 
     public void printNode(){
         System.out.println("Value: " + value);
