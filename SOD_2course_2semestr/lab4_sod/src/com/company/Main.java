@@ -16,6 +16,7 @@ public class Main {
         binaryTree.insertNode(19);
         binaryTree.insertNode(25);
         binaryTree.insertNode(11);
+        binaryTree.contains(19).printNode();
 
 
         binaryTree.printTree();

@@ -1,56 +1,139 @@
 package com.company;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Stack;
 
 public class BinaryTree {   // Comporator usage
-    MyComparator myComparator = new MyComparator();
+
 
     private Node root;
 
-
-    public boolean insertNode(int value) {
+    public void insertNode(int value) {
         Node newNode = new Node();
         newNode.setValue(value);
         if (root == null) {  //root node
             root = newNode;
-        }
-        return addInSubTree(value, root);
-    }
-
-    private boolean addInSubTree(int value, Node rootNode) {
-        if (value == rootNode.getValue()) {
-            return false;
-        }
-        if (value % 2 ==0) { // left
-            if(value > rootNode.getValue()){
-                if (rootNode.getLeft()==null) { // Left
-                    rootNode.setLeft(new Node(value));
-                    return true;
-                } else {
-                    return addInSubTree(value, rootNode.getLeft());
-                }
-            }
-            else {
-                if (rootNode.getRight() == null) { //Right
-                    rootNode.setRight(new Node(value));
-                    return true;
-                } else {
-                    return addInSubTree(value, rootNode.getRight());
-                }
-            }
-
         } else {
-            if (rootNode.getRight() == null) { //Right
-                rootNode.setRight(new Node(value));
-                return true;
-            } else {
-                return addInSubTree(value, rootNode.getRight());
+            Node currentNode = root;
+
+            if (value % 2 == 0) { // to left
+
+                if(value == currentNode.getValue()){ //value exists
+                    return;
+                }
+                if (root.getLeft() == null) { // first left element
+                    root.setLeft(newNode);
+                    newNode.setParent(root);
+                    newNode.setValue(value);
+                    return;
+                }
+                currentNode = root.getLeft();
+                while (true) {
+                    if(value == currentNode.getValue()){ //value exists
+                        return;
+                    }
+                    if (value < currentNode.getValue()) {   // left
+                        if (currentNode.getLeft() == null) {
+                            currentNode.setLeft(newNode);
+                            newNode.setParent(currentNode);
+                            return;
+                        }
+                        currentNode = currentNode.getLeft();
+                    }
+                    else { // right
+                        if (currentNode.getRight() == null) {
+                            currentNode.setRight(newNode);
+                            newNode.setParent(currentNode);
+                            return;
+                        }
+                        currentNode = currentNode.getRight();
+                    }
+                }
+            } else { // to right
+                if(value == currentNode.getValue()){ //value exists
+                    return;
+                }
+                if (root.getRight() == null) { // first right element
+                    root.setRight(newNode);
+                    newNode.setParent(root);
+                    newNode.setValue(value);
+                    return;
+                }
+                currentNode = root.getRight();
+                while (true) {
+                    if(value == currentNode.getValue()){ //value exists
+                        return;
+                    }
+                    if (value > currentNode.getValue()) {   // left
+                        if (currentNode.getLeft() == null) {
+                            currentNode.setLeft(newNode);
+                            newNode.setParent(currentNode);
+                            return;
+                        }
+                        currentNode = currentNode.getLeft();
+                    }
+                    else { // right
+                        if (currentNode.getRight() == null) {
+                            currentNode.setRight(newNode);
+                            newNode.setParent(currentNode);
+                            return;
+                        }
+                        currentNode = currentNode.getRight();
+                    }
+                }
             }
         }
     }
+
+    private Node find(int key){
+        if(root == null){
+            return null;
+        }
+        if (root.getValue() == key) {
+            return root;
+        }
+        if(key % 2 ==0){
+            if(root.getLeft().getValue() == key){
+                return root.getLeft();
+            }
+           return findInSubTreeLeft(key, root.getLeft());
+        }
+        else {
+            if (root.getRight().getValue() == key){
+                return root.getRight();
+            }
+          return findInSubTreeRight(key, root.getRight());
+
+        }
+
+    }
+
+    private Node findInSubTreeLeft(int key, Node root) {
+        if (root==null || key == root.getValue()) {
+            return root;
+        }
+        if (key<root.getValue()) {
+            return findInSubTreeLeft(key, root.getLeft());
+        } else {
+            return findInSubTreeLeft(key, root.getRight());
+        }
+    }
+    private Node findInSubTreeRight(int key, Node root) {
+        if (root==null || key == root.getValue()) {
+            return root;
+        }
+        if (key<root.getValue()) {
+            return findInSubTreeRight(key, root.getRight());
+        } else {
+            return findInSubTreeRight(key, root.getLeft());
+        }
+    }
+
+    public Node contains(int key) {
+        return find(key);
+    }
+
+
+
 
     public void printTree() { // метод для вывода дерева в консоль
         Stack globalStack = new Stack(); // общий стек для значений дерева
@@ -92,24 +175,5 @@ public class BinaryTree {   // Comporator usage
     }
 
 
-}
-
-class MyComparator implements Comparator<Integer>{
-
-    @Override
-    public int compare(Integer o1, Integer o2) {
-        if (o1 % 2 == 0 && o2 % 2 != 0) {
-            return -1;
-        }
-        if (o2 % 2 == 0 && o1 % 2 != 0) {
-            return +1;
-        }
-        if (o1 % 2 == 0) {
-            return -Integer.compare(o1, o2);
-        }
-        return Integer.compare(o1, o2);
-    }
 
 }
-
-
