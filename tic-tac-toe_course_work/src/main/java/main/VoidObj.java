@@ -7,4 +7,9 @@ public class VoidObj extends Obj{
         super(button);
         button.setText("");
     }
+
+    @Override
+    public String getChar() {
+        return " ";
+    }
 }

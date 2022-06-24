@@ -10,4 +10,9 @@ public class OObj extends Obj {
         button.setText("O");
         button.setTextFill(Color.GREEN);
     }
+
+    @Override
+    public String getChar() {
+        return "O";
+    }
 }

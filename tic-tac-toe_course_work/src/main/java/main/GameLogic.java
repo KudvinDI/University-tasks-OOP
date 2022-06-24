@@ -6,10 +6,15 @@ import javafx.scene.text.Text;
 
 public class GameLogic  {
     private int playerTurn;
+    private final Obj[] objects = new Obj[9];
+
+    public GameLogic(){
+        restartObj();
+    }
 
     public void setupButton(Button button, Button[] buttons, Text mainText){
         button.setOnMouseClicked(mouseEvent ->{
-            setPlayerSymbol(button);
+            setPlayerSymbol(button, buttons);
             button.setDisable(true);
             checkEndGame(buttons, mainText);
         });
@@ -19,18 +24,19 @@ public class GameLogic  {
             restartGame(buttons, mainText);
         });
     }
-    //TODO rework 2d array ???
+
     private void checkEndGame(Button[] buttons, Text mainText){       // ALL Combinations check
+
         for(int i=0; i<8; i++){
             String line = switch (i){
-                case 0 -> buttons[0].getText() + buttons[1].getText() + buttons[2].getText();
-                case 1 -> buttons[3].getText() + buttons[4].getText() + buttons[5].getText();
-                case 2 -> buttons[6].getText() + buttons[7].getText() + buttons[8].getText();
-                case 3 -> buttons[0].getText() + buttons[4].getText() + buttons[8].getText();
-                case 4 -> buttons[2].getText() + buttons[4].getText() + buttons[6].getText();
-                case 5 -> buttons[0].getText() + buttons[3].getText() + buttons[6].getText();
-                case 6 -> buttons[1].getText() + buttons[4].getText() + buttons[7].getText();
-                case 7 -> buttons[2].getText() + buttons[5].getText() + buttons[8].getText();
+                case 0 -> objects[0].getChar() + objects[1].getChar() + objects[2].getChar();
+                case 1 -> objects[3].getChar() + objects[4].getChar() + objects[5].getChar();
+                case 2 -> objects[6].getChar() + objects[7].getChar() + objects[8].getChar();
+                case 3 -> objects[0].getChar() + objects[4].getChar() + objects[8].getChar();
+                case 4 -> objects[2].getChar() + objects[4].getChar() + objects[6].getChar();
+                case 5 -> objects[0].getChar() + objects[3].getChar() + objects[6].getChar();
+                case 6 -> objects[1].getChar() + objects[4].getChar() + objects[7].getChar();
+                case 7 -> objects[2].getChar() + objects[5].getChar() + objects[8].getChar();
                 default -> null;
             };
             if(line.equals("XXX")){
@@ -48,16 +54,39 @@ public class GameLogic  {
         for(Button button : buttons){
             button.setDisable(true);
         }
+        restartObj();
     }
 
-    private void setPlayerSymbol(Button button){
+    private void setPlayerSymbol(Button button, Button[] buttons){
         DrawToScene drawToScene = new DrawToScene(button);
         if(playerTurn %2 == 0){
             drawToScene.drawX();
+            int index =-1;
+            for(int i = 0; i < buttons.length; i++) {
+                if(buttons[i].equals(button)) {
+                    index = i;
+                    break;
+                }
+            }
+            objects[index] = new XObj(button);
             playerTurn = 1;
         }else{
             drawToScene.drawO();
+            int index =-1;
+            for(int i = 0; i < buttons.length; i++) {
+                if(buttons[i].equals(button)) {
+                    index = i;
+                    break;
+                }
+            }
+            objects[index] = new OObj(button);
             playerTurn = 0;
+        }
+    }
+    private void restartObj(){
+        for (int i = 0; i < objects.length; i++) {
+            objects[i] = new Obj(new Button());
+
         }
     }
     private void restartGame(Button[] buttons, Text mainText){ //Clicked on restart

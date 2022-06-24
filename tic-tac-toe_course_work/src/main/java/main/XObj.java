@@ -9,4 +9,9 @@ public class XObj extends Obj {
         button.setText("X");
         button.setTextFill(Color.RED);
     }
+
+    @Override
+    public String getChar() {
+        return "X";
+    }
 }
