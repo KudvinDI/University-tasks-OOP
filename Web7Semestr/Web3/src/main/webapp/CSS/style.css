@@ -1,0 +1,96 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+
+}
+
+body{
+    display: flex;
+    position: relative;
+    min-height: 100vh;
+    background: url('../Asserts/abstract-gradient-neon-lights.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+
+}
+.header{
+    display: flex;
+    position: absolute;
+    justify-content: flex-end;
+    width: 100%;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    top: 0;
+    padding: 30px 40px;
+}
+.header .login-button{
+    height: 30px;
+    width: 80px;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    color: white;
+    background-color: darkorange;
+    cursor: pointer;
+}
+.nav-list-search{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    min-height: 500px;
+    padding: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-bar{
+
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    padding: 10px 20px;
+}
+.search-bar input{
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: 24px 20px;
+    font-size: 20px;
+    color: #cac7ff;
+}
+.search-bar button img{
+    width: 25px;
+}
+.search-bar button{
+    border: 0;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    background: #58629b;
+    cursor: pointer;
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    padding: 30px 40px;
+    width: 100%;
+
+}
+.footer-links{
+    margin-right: 40px;
+    color:white;
+}
